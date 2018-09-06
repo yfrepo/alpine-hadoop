@@ -34,8 +34,8 @@ ENV HADOOP_HOME $HADOOP_DIR
 ENV PATH $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 
 RUN set -x \
-    && mkdir $HADOOP_DIR \
-    && curl "$HADOOP_DOWNLOAD_LINK" | tar -xz -C $HADOOP_DIR --strip-components 1
+    && mkdir $HADOOP_HOME \
+    && curl "$HADOOP_DOWNLOAD_LINK" | tar -xz -C $HADOOP_HOME --strip-components 1
 	
 RUN { \
         echo '#!/bin/sh'; \
@@ -45,6 +45,9 @@ RUN { \
 		echo 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'; \
     } > /etc/profile.d/hadoop.sh \
     && chmod +x /etc/profile.d/hadoop.sh
+	
+RUN echo 'remove hadoop docs' \
+    && rm -rf $HADOOP_HOME/share/doc/
 
 COPY conf/hadoop-env.sh   $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 COPY conf/core-site.xml   $HADOOP_HOME/etc/hadoop/core-site.xml
