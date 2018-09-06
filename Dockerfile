@@ -66,7 +66,7 @@ EXPOSE 2181 8020 8088 50070
 ENTRYPOINT echo "setting hadoop environment" \
            # && sed -i "s/{{JAVA_HOME}}//usr/lib/jvm/default-jvm/g" $HADOOP_HOME/etc/hadoop/hadoop-env.sh \
            && sed -i "s/{{HOST}}/`hostname`/g" $HADOOP_HOME/etc/hadoop/core-site.xml \
-           echo "starting services" \
+           && echo "starting services" \
            && /etc/init.d/sshd start \
            && hdfs namenode -format \
            && start-dfs.sh \
